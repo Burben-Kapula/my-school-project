@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+                body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 50px;
+       
+
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        select, input[type="search"], button {
+            width: 20%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="conversion">Conversion:</label>
+    <select id="conversion" name="conversion">
+        <option value="celsiusToFahrenheit">Celcius -> Fahrenheit</option>
+        <option value="fahrenheitToCelsius">Fahrenheit -> Celsius</option>
+    </select>
+
+    <label for="Degrees">
+        <input type="search" id="input">
+        <button id="Convert">Convert</button>
+    </label>
+
+    <label for="radio1">1 desimaali</label>
+    <input type="radio" id="radio1" name="radio"><br><br>
+    <label for="radio2">2 desimaali</label>
+    <input type="radio" id="radio2" name="radio"><br><br>
+    <label for="radio2">3 desimaali</label>
+    <input type="radio" id="radio3" name="radio"><br><br>
+    <p id="text"></p>
+
+
+    <script>
+        addnumber = document.querySelector("#input")
+        button = document.querySelector("#Convert")
+        radio1 = document.querySelector("#radio1")
+        radio2 = document.querySelector("#radio2")
+        radio3 = document.querySelector("#radio3")
+        text = document.querySelector("#text")
+        button.onclick = convert
+
+        function convert() {
+        const input = addnumber.value;
+
+        // Перевірка введення
+        if (input === "" || isNaN(input)) {
+            text.innerText = "Please enter a valid number";
+            return;
+        }
+
+        const degrees = parseFloat(input);
+        const conversionType = document.querySelector("#conversion").value;
+        let result;
+
+        // Конвертація температури
+        if (conversionType === "celsiusToFahrenheit") {
+            result = (degrees * 9 / 5) + 32;
+        } else if (conversionType === "fahrenheitToCelsius") {
+            result = (degrees - 32) * 5 / 9;
+        }
+
+        // Визначення кількості десяткових знаків
+        let decimals = 1;
+        if (radio2.checked) decimals = 2;
+        if (radio3.checked) decimals = 3;
+
+        // Виведення результату
+        text.innerText = `Converted temperature: ${result.toFixed(decimals)}`;
+    }
+</script>
+
+
+    </script>
+</body>
+</html>
