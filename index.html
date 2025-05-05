@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaverit</title>
+</head>
+<body>
+    <label for="name">
+        <input type="search" id="name">
+    </label>
+    <button id="add">add</button>
+    <button id="remove">remove</button>
+    <button id="sort">sort</button>
+    <p id="text"></p>
+<script>
+    addName = document.querySelector("#add");
+    removeName = document.querySelector("#remove");
+    sortName = document.querySelector("#sort");
+    nameInput = document.querySelector("#name");
+    text = document.querySelector("#text");
+    nameList = [];
+
+    addName.onclick = addNameToList
+    removeName.onclick = removeNameFromList;
+    sortName.onclick = sortNameList;
+
+    function addNameToList(){
+        if (nameInput){
+            nameList.push(nameInput.value);
+            console.log(nameList);
+            text.textContent = nameList
+        }
+    }
+    function removeNameFromList(){
+        if (nameList) {
+            nameList.pop();
+            console.log(nameList);
+            text.textContent = nameList
+        }
+    }
+    function sortNameList(){
+        if (sortName) {
+            nameList.sort();
+            console.log(nameList);
+            text.textContent = nameList
+        }
+    }
+
+</script>
+</body>
+</html>
