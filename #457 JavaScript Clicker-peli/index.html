@@ -111,7 +111,11 @@
         const item3Button = document.querySelector("#item3");
         const resetButton = document.querySelector("#reset");
         const textDisplay = document.querySelector("#text");
-
+        // Прив'язка кнопок до функцій
+        item1Button.onclick = item1;
+        item2Button.onclick = item2;
+        item3Button.onclick = item3;
+        resetButton.onclick = reset;
         // Завантаження прогресу з localStorage
         if (localStorage.getItem("points")) {
             points = parseInt(localStorage.getItem("points"), 10);
@@ -131,14 +135,14 @@
         });
 
         // Скидання прогресу
-        resetButton.addEventListener("click", () => {
+        function reset() {
             points = 0;
             multiplier = 1; // Скидаємо множник
             pointsDisplay.innerText = `Points: ${points}`;
-            localStorage.removeItem("points"); // Очищення прогресу
-            localStorage.removeItem("multiplier"); // Очищення множника
+            localStorage.removeItem("points"); // Очищення прогресу (рядок "points")
+            localStorage.removeItem("multiplier"); // Очищення множника (рядок "multiplier")
             textDisplay.innerText = "Progress reset!";
-        });
+        }
 
         // Функція для покупки
         function item1() {
@@ -183,10 +187,7 @@
             }
         }
 
-        // Прив'язка кнопок до функцій
-        item1Button.onclick = item1;
-        item2Button.onclick = item2;
-        item3Button.onclick = item3;
+
     </script>
 </body>
 </html>
