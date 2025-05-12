@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hedelmäpeli </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0fff0;
+            text-align: center;
+        }
+
+        .player_money_container {
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #d4f5d4;
+            border: 2px solid #00a000;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        .player_money_container p {
+            margin: 5px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #00a000;
+        }
+
+        .bet_buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .bet_button {
+            text-align: center;
+        }
+
+        .bet_button img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .border_container {
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #e8ffe8;
+            border: 2px solid #00a000;
+            width: 400px;
+            border-radius: 10px;
+        }
+
+        .fruit_table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .fruit_table td {
+            border: 1px solid #00a000;
+            padding: 10px;
+        }
+
+        .fruit_image {
+            width: 50px;
+        }
+
+        .coin_cell {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00a000;
+        }
+
+        .coin_image {
+            width: 20px;
+            vertical-align: middle;
+        }
+
+        .roll_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .roll_slot {
+            width: 80px;
+            height: 80px;
+            margin: 0 10px;
+            border: 2px solid #00a000;
+            border-radius: 10px;
+        }
+
+        .lock_button {
+            display: block;
+            gap: 10px;
+            background-color: #a0522d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .lock_button:hover {
+            background-color: #8b4513;
+        }
+
+        .play_button {
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #00a000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .play_button:hover {
+            background-color: #007a00;
+        }
+
+        .lock {
+            display: flex;
+            margin-top: 20px;
+            gap: 40px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="player_money_container">
+        <p id="alert"></p>
+        <p id="player_money"></p>
+        <p id="bet_amount"></p>
+        <div class="bet_buttons">
+            <div id="bet_1_container" class="bet_button">
+                <img src="images/coin.jpg" alt="10€" class="coin_image">
+                <p>10€</p>
+                <button id="bet_btn1">10€</button>
+            </div>
+            <div id="bet_2_container" class="bet_button">
+                <img src="images/coin.jpg" alt="50€" class="coin_image">
+                <p>50€</p>
+                <button id="bet_btn2">50€</button>
+            </div>
+            <div id="bet_3_container" class="bet_button">
+                <img src="images/coin.jpg" alt="100€" class="coin_image">
+                <p>100€</p>
+                <button id="bet_btn3">100€</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="border_container">
+        <div class="fruit_info">
+            <table class="fruit_table">
+                <tr>
+                    <td>
+                        <img src="images/apple.jpg" alt="Apple" class="fruit_image">
+                        <img src="images/apple.jpg" alt="Apple" class="fruit_image">
+                        <img src="images/apple.jpg" alt="Apple" class="fruit_image">
+                    </td>
+                    <td class="coin_cell">2x <img src="images/coin.jpg" alt="Coin" class="coin_image"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/pear.jpg" alt="Pear" class="fruit_image">
+                        <img src="images/pear.jpg" alt="Pear" class="fruit_image">
+                        <img src="images/pear.jpg" alt="Pear" class="fruit_image">
+                    </td>
+                    <td class="coin_cell">4x <img src="images/coin.jpg" alt="Coin" class="coin_image"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/cherry.jpg" alt="Cherry" class="fruit_image">
+                        <img src="images/cherry.jpg" alt="Cherry" class="fruit_image">
+                        <img src="images/cherry.jpg" alt="Cherry" class="fruit_image">
+                    </td>
+                    <td class="coin_cell">6x <img src="images/coin.jpg" alt="Coin" class="coin_image"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/watermelon.jpg" alt="Watermelon" class="fruit_image">
+                        <img src="images/watermelon.jpg" alt="Watermelon" class="fruit_image">
+                        <img src="images/watermelon.jpg" alt="Watermelon" class="fruit_image">
+                    </td>
+                    <td class="coin_cell">8x <img src="images/coin.jpg" alt="Coin" class="coin_image"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/seven.png" alt="seven" class="fruit_image">
+                        <img src="images/seven.png" alt="seven" class="fruit_image">
+                        <img src="images/seven.png" alt="seven" class="fruit_image">
+                    </td>
+                    <td class="coin_cell">10x <img src="images/coin.jpg" alt="Coin" class="coin_image"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="roll_container">
+        <img src="images/apple.jpg" id="roll_slot1" class="roll_slot">
+        <img src="images/watermelon.jpg" id="roll_slot2" class="roll_slot">
+        <img src="images/pear.jpg" id="roll_slot3" class="roll_slot">
+        <img src="images/cherry.jpg" id="roll_slot4" class="roll_slot">
+    </div>
+    <div class="lock">
+        <button id="lock1" class="lock_button">LUKITSE</button>
+        <button id="lock2" class="lock_button">LUKITSE</button>
+        <button id="lock3" class="lock_button">LUKITSE</button>
+        <button id="lock4" class="lock_button">LUKITSE</button>
+    </div>
+    <button id="roll_btn" class="play_button">PELAA</button>
+
+    <script>
+        let playerMoney = 100;
+        let betAmount = 0;
+        let img = ["images/apple.jpg", "images/pear.jpg", "images/cherry.jpg", "images/watermelon.jpg", "images/seven.png"];
+        let multipliers = {
+            "apple.jpg": 2,
+            "pear.jpg": 4,
+            "cherry.jpg": 6,
+            "watermelon.jpg": 8,
+            "seven.png": 10
+        };
+
+        moneyText = document.querySelector("#player_money");
+        betText = document.querySelector("#bet_amount");
+        alertText = document.querySelector("#alert");
+        moneyText.innerText = "Your money: " + playerMoney + "€";
+        betText.innerText = "Your Bet: " + betAmount + "€";
+
+        buttom10 = document.querySelector("#bet_btn1");
+        buttom50 = document.querySelector("#bet_btn2");
+        buttom100 = document.querySelector("#bet_btn3");
+        rollButtom = document.querySelector("#roll_btn");
+        lockButtom1 = document.querySelector("#lock1");
+        lockButtom2 = document.querySelector("#lock2");
+        lockButtom3 = document.querySelector("#lock3");
+        lockButtom4 = document.querySelector("#lock4");
+
+        rollButtom.onclick = rollSlots;
+        buttom10.onclick = addbet10;
+        buttom50.onclick = addbet50;
+        buttom100.onclick = addbet100;
+
+        function addbet10() {
+            if (playerMoney >= 10) {
+                betAmount += 10;
+                playerMoney -= 10;
+                moneyText.innerText = "Your money: " + playerMoney + "€";
+                betText.innerText = "Your Bet: " + betAmount + "€";
+            } else {
+                alertText.innerText = "Not enough money!";
+            }
+        }
+
+        function addbet50() {
+            if (playerMoney >= 50) {
+                betAmount += 50;
+                playerMoney -= 50;
+                moneyText.innerText = "Your money: " + playerMoney + "€";
+                betText.innerText = "Your Bet: " + betAmount + "€";
+            } else {
+                alertText.innerText = "Not enough money!";
+            }
+        }
+
+        function addbet100() {
+            if (playerMoney >= 100) {
+                betAmount += 100;
+                playerMoney -= 100;
+                moneyText.innerText = "Your money: " + playerMoney + "€";
+                betText.innerText = "Your Bet: " + betAmount + "€";
+            } else {
+                alertText.innerText = "Not enough money!";
+            }
+        }
+
+        function rollSlots() {
+            if (betAmount == 0) {
+                alertText.innerText = "Please place a bet!";
+                return;
+            }
+
+            const slotIds = ["roll_slot1", "roll_slot2", "roll_slot3", "roll_slot4"];
+            let slotResults = [];
+
+            slotIds.forEach(slotId => {
+                const randomIndex = Math.floor(Math.random() * img.length);
+                const randomImage = img[randomIndex];
+                document.getElementById(slotId).src = randomImage;
+                slotResults.push(randomImage);
+            });
+
+            // Перевірка, чи всі картинки однакові
+            let uniqueResults = new Set(slotResults);
+            if (uniqueResults.size === 1) {
+                let winningMultiplier = multipliers[uniqueResults.values().next().value];
+                let winnings = winningMultiplier * betAmount;
+                playerMoney += winnings;
+                moneyText.innerText = "Your money: " + playerMoney + "€";
+                alertText.innerText = "You won: " + winnings + "€!";
+            } else {
+                playerMoney -= betAmount;
+                moneyText.innerText = "Your money: " + playerMoney + "€";
+                alertText.innerText = "You lost: " + betAmount + "€!";
+            }
+        }
+    </script>
+</body>
+</html>
