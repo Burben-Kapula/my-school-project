@@ -3,206 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dice Roll Game</title>
+    <title>Clicker</title>
     <style>
-        /* ... стиль залишається без змін ... */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient( #87CEEB, #f0f0f0); /* Градієнт як у 2010 році */
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Висота на весь екран */
+            background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGJsdXUlMjBzaGFkZXxlbnwwfHx8fDE2OTI3NTY5NzE&ixlib=rb-1.2.1&q=80&w=1080') no-repeat center center fixed; /* Фонове зображення */
+            background-size: cover; /* Покриття фону */
+        }
+        
+        .game {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255); /* Напівпрозорий фон */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Тінь для блоку */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Тінь для тексту */
+        }
+
+        #points {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+
+        #cookie {
+            background: url(image/ChatGPT\ Image\ 6.\ toukok.\ 2025\ klo\ 12.27.46.png) no-repeat center center;
+            background-size: cover;
+            border: none;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        button {
+            background: linear-gradient(to bottom, #4CAF50, #2E7D32); /* Градієнт для кнопок */
+            border: 1px solid #1B5E20;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Тінь для кнопок */
+        }
+
+        button:hover {
+            background: linear-gradient(to bottom, #66BB6A, #388E3C); /* Зміна кольору при наведенні */
+        }
+
+        button:active {
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5); /* Втиснутий ефект при натисканні */
+        }
+
+        #text {
+            font-size: 1.2em;
+            margin: 20px 0;
+            color: #555;
+        }
+
+        .shop-buttons {
+            margin-top: 20px;
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="wrapper">
-        <h1>Enter names for 2–4 players</h1>
-        <input type="text" id="player1" placeholder="Player 1 Name"><br>
-        <input type="text" id="player2" placeholder="Player 2 Name"><br>
-        <input type="text" id="player3" placeholder="Player 3 Name"><br>
-        <input type="text" id="player4" placeholder="Player 4 Name"><br>
-        <button id="start">Start Game</button>
-        <button id="reset">Reset Game</button>
-        <button id="roll">Roll Dice</button>
-        <h1 id="loose"></h1>
-        <h1 id="main-text">Arcade Dice Game</h1>
-        <div id="message"></div>
-        <div class="dice-area">
-            <p id="player-name1"></p>
-            <img>
-            <img>
-            <p id="score1"></p>
-        </div>
-        <div class="dice-area">
-            <p id="player-name2"></p>
-            <img>
-            <img>
-            <p id="score2"></p>
-        </div>
-        <div class="dice-area">
-            <p id="player-name3"></p>
-            <img>
-            <img>
-            <p id="score3"></p>
-        </div>
-        <div class="dice-area">
-            <p id="player-name4"></p>
-            <img>
-            <img>
-            <p id="score4"></p>
-        </div>
+    <section class="game-section">
+    <div class="game">
+    <h1>Clicker Game</h1>
+    <p id="text">Welcome to the game!</p>
+    <p id="points">Points: 0</p>
+    <button id="cookie"></button>
+    <div class="shop-buttons">
+        <button id="item1">Buy auto-clicker (10 points)</button>
+        <button id="item2">Buy double points (100 points)</button>
+        <button id="item3">Buy triple points (200 points)</button>
+        <button id="reset">Reset Progress</button>
     </div>
+    </div>
+    </section>
     <script>
+        let points = 0;
+        let multiplier = 1;
+        const pointsDisplay = document.querySelector("#points");
+        const cookieButton = document.querySelector("#cookie");
+        const item1Button = document.querySelector("#item1");
+        const item2Button = document.querySelector("#item2");
+        const item3Button = document.querySelector("#item3");
         const resetButton = document.querySelector("#reset");
-        const startButton = document.querySelector("#start");
-        const rollButton = document.querySelector("#roll");
-        const message = document.querySelector("#message");
+        const textDisplay = document.querySelector("#text");
 
-        resetButton.onclick = resetGame;
-        startButton.onclick = startGame;
-        rollButton.onclick = function () {
-            playGame();
-            loose();
-        };
-
-        const ListFirstPlayer = [];
-        const ListSecondPlayer = [];
-        const ListThirdPlayer = [];
-        const ListFourthPlayer = [];
-
-        function updateMessage(msg) {
-            message.innerText = msg;
+        // Завантаження прогресу з localStorage
+        if (localStorage.getItem("points")) {
+            points = parseInt(localStorage.getItem("points"), 10);
+        }
+        if (localStorage.getItem("multiplier")) {
+            multiplier = parseInt(localStorage.getItem("multiplier"), 10);
         }
 
-        function loose() {
-            const names = [
-                document.querySelector("#player1").value.trim(),
-                document.querySelector("#player2").value.trim(),
-                document.querySelector("#player3").value.trim(),
-                document.querySelector("#player4").value.trim()
-            ];
+        // Оновлення інтерфейсу
+        pointsDisplay.innerText = `Points: ${points}`;
 
-            const playerLists = [ListFirstPlayer, ListSecondPlayer, ListThirdPlayer, ListFourthPlayer];
-            const scoreElements = [
-                document.querySelector("#score1"),
-                document.querySelector("#score2"),
-                document.querySelector("#score3"),
-                document.querySelector("#score4")
-            ];
+        // Додавання поінтів при кліку
+        cookieButton.addEventListener("click", () => {
+            points += 1 * multiplier; // Додаємо множник
+            pointsDisplay.innerText = `Points: ${points}`;
+            localStorage.setItem("points", points); // Збереження прогресу
+        });
 
-            const looseText = document.querySelector("#loose");
+        // Скидання прогресу
+        resetButton.addEventListener("click", () => {
+            points = 0;
+            multiplier = 1; // Скидаємо множник
+            pointsDisplay.innerText = `Points: ${points}`;
+            localStorage.removeItem("points"); // Очищення прогресу
+            localStorage.removeItem("multiplier"); // Очищення множника
+            textDisplay.innerText = "Progress reset!";
+        });
 
-            for (let i = 0; i < 4; i++) {
-                if (names[i] !== "") {
-                    const totalScore = playerLists[i].reduce((sum, current) => sum + current, 0);
-                    scoreElements[i].innerText = `Score: ${totalScore}`;
-                    if (totalScore >= 100) {
-                        looseText.textContent = `${names[i]} WINS!`;
-                    }
-                } else {
-                    scoreElements[i].innerText = "";
-                }
-            }
-        }
-
-        function startGame() {
-            const names = [
-                document.querySelector("#player1").value.trim(),
-                document.querySelector("#player2").value.trim(),
-                document.querySelector("#player3").value.trim(),
-                document.querySelector("#player4").value.trim()
-            ];
-
-            const nonEmptyNames = names.filter(name => name !== "");
-            if (nonEmptyNames.length < 2) {
-                updateMessage("Please enter names for at least 2 players!");
-                return;
-            }
-
-            const playerElements = [
-                document.querySelector("#player-name1"),
-                document.querySelector("#player-name2"),
-                document.querySelector("#player-name3"),
-                document.querySelector("#player-name4")
-            ];
-
-            for (let i = 0; i < 4; i++) {
-                const diceArea = document.querySelectorAll(".dice-area")[i];
-                if (names[i] !== "") {
-                    playerElements[i].textContent = names[i];
-                    diceArea.style.display = "inline-block";
-                } else {
-                    diceArea.style.display = "none";
-                }
-            }
-
-            saveNames();
-            playGame();
-        }
-
-        function resetGame() {
-            localStorage.clear();
-            location.reload();
-        }
-
-        function playGame() {
-            const names = [
-                document.querySelector("#player1").value.trim(),
-                document.querySelector("#player2").value.trim(),
-                document.querySelector("#player3").value.trim(),
-                document.querySelector("#player4").value.trim()
-            ];
-
-            const diceImages = document.querySelectorAll("img");
-
-            const dicePairs = [
-                [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1],
-                [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1],
-                [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1],
-                [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1]
-            ];
-
-            const playerLists = [ListFirstPlayer, ListSecondPlayer, ListThirdPlayer, ListFourthPlayer];
-
-            let diceImageIndex = 0;
-
-            for (let i = 0; i < 4; i++) {
-                const [dice1, dice2] = dicePairs[i];
-
-                if (names[i] !== "") {
-                    diceImages[diceImageIndex++].setAttribute("src", "images/dice" + dice1 + ".png");
-                    diceImages[diceImageIndex++].setAttribute("src", "images/dice" + dice2 + ".png");
-                    calculateScore(dice1, dice2, playerLists[i], names[i]);
-                }
-            }
-        }
-
-        function calculateScore(dice1, dice2, playerList, playerName) {
-            if (dice1 === 1 && dice2 === 1) {
-                playerList.push(25);
-                updateMessage(`${playerName} gets 25 points for double ones!`);
-            } else if (dice1 === dice2) {
-                const score = (dice1 + dice2) * 2;
-                playerList.push(score);
-                updateMessage(`${playerName} gets ${score} points for a double!`);
-            } else if (dice1 === 1 || dice2 === 1) {
-                updateMessage(`${playerName} loses all points this round due to a one!`);
-                playerList.push(0);
+        // Функція для покупки
+        function item1() {
+            if (points >= 10) {
+                points -= 10;
+                pointsDisplay.innerText = `Points: ${points}`;
+                localStorage.setItem("points", points); // Збереження прогресу
+                textDisplay.innerText = "You bought an auto-clicker!";
+                setInterval(() => {
+                    points += 1;
+                    pointsDisplay.innerText = `Points: ${points}`;
+                    localStorage.setItem("points", points); // Збереження прогресу
+                }, 1000);
             } else {
-                const score = dice1 + dice2;
-                playerList.push(score);
-                updateMessage(`${playerName} gets ${score} points.`);
+                textDisplay.innerText = "Not enough points!";
             }
         }
 
-        function saveNames() {
-            const player1Name = document.querySelector("#player1").value.trim();
-            const player2Name = document.querySelector("#player2").value.trim();
-            const player3Name = document.querySelector("#player3").value.trim();
-            const player4Name = document.querySelector("#player4").value.trim();
-
-            localStorage.setItem("player1", player1Name);
-            localStorage.setItem("player2", player2Name);
-            localStorage.setItem("player3", player3Name);
-            localStorage.setItem("player4", player4Name);
-
-            updateMessage("Names saved: " + [player1Name, player2Name, player3Name, player4Name].filter(name => name).join(", "));
+        function item2() {
+            if (points >= 100) {
+                points -= 100;
+                multiplier *= 2;
+                pointsDisplay.innerText = `Points: ${points}`;
+                localStorage.setItem("points", points);
+                localStorage.setItem("multiplier", multiplier);
+                textDisplay.innerText = "You bought double points!";
+            } else {
+                textDisplay.innerText = "Not enough points!";
+            }
         }
+
+        function item3() {
+            if (points >= 200) {
+                points -= 200;
+                multiplier *= 3;
+                pointsDisplay.innerText = `Points: ${points}`;
+                localStorage.setItem("points", points);
+                localStorage.setItem("multiplier", multiplier);
+                textDisplay.innerText = "You bought triple points!";
+            } else {
+                textDisplay.innerText = "Not enough points!";
+            }
+        }
+
+        // Прив'язка кнопок до функцій
+        item1Button.onclick = item1;
+        item2Button.onclick = item2;
+        item3Button.onclick = item3;
     </script>
 </body>
 </html>
